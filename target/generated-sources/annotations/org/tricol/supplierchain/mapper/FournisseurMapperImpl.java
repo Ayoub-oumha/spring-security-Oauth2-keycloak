@@ -9,7 +9,7 @@ import org.tricol.supplierchain.entity.Fournisseur;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-01-16T10:54:51+0100",
+    date = "2026-01-16T11:20:12+0100",
     comments = "version: 1.6.3, compiler: javac, environment: Java 17.0.17 (Eclipse Adoptium)"
 )
 @Component
