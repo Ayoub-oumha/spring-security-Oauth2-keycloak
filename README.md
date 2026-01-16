@@ -7,8 +7,23 @@ Application de gestion des approvisionnements et des stocks avec Spring Security
 ### Prérequis
 - Java 17+
 - Maven 3.6+
-- Docker
-- MySQL 8.0+ (doit être en cours d'exécution sur localhost)
+- Docker & Docker Compose
+- MySQL 8.0+ (ou utiliser Docker Compose)
+
+### Démarrage rapide avec Docker Compose
+```bash
+# Démarrer Keycloak et MySQL
+docker-compose up -d
+
+# Compiler et lancer l'application
+mvn clean package
+java -jar target/supplierchain-0.0.1-SNAPSHOT.jar
+```
+
+**Services disponibles:**
+- Application: http://localhost:8080
+- Keycloak: http://localhost:8180 (admin/admin)
+- MySQL: localhost:3306
 
 ## 🐳 Docker
 
@@ -99,19 +114,32 @@ java -jar target/supplierchain-0.0.1-SNAPSHOT.jar
 ## 🔐 Sécurité
 
 L'application utilise:
+- **Keycloak** pour l'authentification et l'autorisation OAuth2/OIDC
 - Spring Security avec JWT
 - Gestion des rôles et permissions
 - System d'audit des actions sensibles
 - Refresh tokens
 
+### Configuration Keycloak
+Voir le guide détaillé: [KEYCLOAK_SETUP.md](KEYCLOAK_SETUP.md)
+
+**Étapes rapides:**
+1. Accéder à Keycloak: http://localhost:8180
+2. Créer le realm `tricol-realm`
+3. Créer le client `tricol-app`
+4. Créer les rôles (ADMIN, RESPONSABLE_ACHATS, etc.)
+5. Créer des utilisateurs et assigner les rôles
+6. Copier le client secret dans `application.properties`
+
 ## 🛠️ Technologies
 
 - Spring Boot 3.5.7
-- Spring Security
+- Spring Security + OAuth2 Resource Server
+- **Keycloak** (Identity and Access Management)
 - JWT (JSON Web Tokens)
 - MySQL 8.0
 - Liquibase
-- Docker
+- Docker & Docker Compose
 - GitHub Actions
 
 ## 👥 Auteur

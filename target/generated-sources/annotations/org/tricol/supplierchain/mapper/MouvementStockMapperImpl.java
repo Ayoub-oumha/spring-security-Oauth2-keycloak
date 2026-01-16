@@ -9,8 +9,8 @@ import org.tricol.supplierchain.entity.Produit;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-01-02T16:36:43+0100",
-    comments = "version: 1.6.3, compiler: javac, environment: Java 23.0.2 (Oracle Corporation)"
+    date = "2026-01-16T10:54:52+0100",
+    comments = "version: 1.6.3, compiler: javac, environment: Java 17.0.17 (Eclipse Adoptium)"
 )
 @Component
 public class MouvementStockMapperImpl implements MouvementStockMapper {

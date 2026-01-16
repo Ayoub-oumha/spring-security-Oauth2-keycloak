@@ -1,36 +1,40 @@
+version: '3.8'
+
 services:
   mysql:
     image: mysql:8.0
     container_name: tricol-mysql
-    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: tricol
+      MYSQL_DATABASE: team_tricol_supplier_chain_security
+    ports:
+      - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+    networks:
+      - tricol-network
 
-  app:
-    build: .
-    image: tricol-app:latest
-    container_name: tricol-app
-    ports:
-      - "8080:8080"
-    depends_on:
-      mysql:
-        condition: service_healthy
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: tricol-keycloak
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/tricol?createDatabaseIfNotExist=true
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
-      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
-      SPRING_JPA_HIBERNATE_DDL_AUTO: none
-      SPRING_PROFILES_ACTIVE: docker
-      SERVER_SERVLET_CONTEXT_PATH: /
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: mysql
+      KC_DB_URL: jdbc:mysql://mysql:3306/keycloak
+      KC_DB_USERNAME: root
+      KC_DB_PASSWORD: root
+    ports:
+      - "8180:8080"
+    depends_on:
+      - mysql
+    command: start-dev
+    networks:
+      - tricol-network
 
 volumes:
   mysql_data:
+
+networks:
+  tricol-network:
+    driver: bridge
